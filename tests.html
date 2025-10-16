@@ -1,0 +1,1263 @@
+<!-- Help me to redesign this website based on above image by put side bar left and remember to make it more responsive also add some charts to display data on home page based on this condition Polished, professional, mobile-first layout; consistent spacing and hierarchy; responsive across ≥3 breakpoints (mobile, tablet, desktop); smooth, tasteful animations or transition
+ and devide this codes into files like this 
+ 
+ project/
+├── index.html (main page)
+├── styles/
+│   └── main.css (all styles)
+├── scripts/
+│   ├── storage.js (localStorage operations)
+│   ├── state.js (app data management)
+│   ├── validators.js (input validation)
+│   ├── search.js (search logic)
+│   └── ui.js (DOM updates)
+└── seed.json (sample data)
+
+
+
+and use this fonts
+
+<link rel="preconnect" href="https://fonts.googleapis.com    ">
+<link rel="preconnect" href="https://fonts.gstatic.com    " crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+
+
+.inter-<uniquifier> {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+
+.outfit-<uniquifier> {
+  font-family: "Outfit", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+### **Key Features Explained**
+
+**A) Pages/Sections:**
+
+- **About** — Information about the app
+- **Dashboard** — Statistics overview (total spent, top category, etc.)
+- **Records Table** — Complete transaction list
+- **Add/Edit Form** — Create or modify transactions
+- **Settings** — Currency conversion rates
+
+**B) Data Model:**
+Each transaction contains:
+
+{
+  id: "txn_001",
+  description: "Lunch at cafeteria",
+  amount: 12.50,
+  category: "Food",
+  date: "2025-09-29",
+  createdAt: "2025-09-29T10:00:00",
+  updatedAt: "2025-09-29T10:00:00"
+}
+
+**C) Regex Validation (4+ rules):**
+
+- Description: No leading or trailing spaces
+- Amount: Valid decimal number
+- Date: YYYY-MM-DD format
+- Category: Letters, spaces, and hyphens only
+- **Advanced**: Detect duplicate words (e.g., "coffee coffee")
+
+**D) Features:**
+
+- Sort by date, description, or amount
+- Search using regex patterns
+- Highlight matches with `<mark>` tags
+
+**E) Dashboard Statistics:**
+
+- Total transactions
+- Total spent
+- Top spending category
+- Last 7 days trend
+- Budget warnings with ARIA live regions
+
+**F) Currency:**
+
+- Base currency (USD) plus 2 others (EUR, RWF)
+- Manual conversion rates in settings
+
+**G) Accessibility:**
+
+- Keyboard navigation
+- Screen reader support
+- Focus indicators
+- ARIA labels and live regions
+
+## Key Features Implemented
+
+### 1. **Regex Validation (4+ rules)**
+
+- **Description**: No leading/trailing spaces (`/^\S(?:.*\S)?$/`)
+- **Amount**: Valid decimal (`/^(0|[1-9]\d*)(\.\d{1,2})?$/`)
+- **Date**: YYYY-MM-DD format
+- **Category**: Letters, spaces, hyphens only
+- **Advanced**: Detects duplicate words (e.g., "coffee coffee") using back-reference pattern
+
+### 2. **Regex Search**
+
+Try these search patterns:
+
+- `coffee|tea` - Find beverages
+- `\.\d{2}\b` - Find amounts with cents
+- `^[A-Z]` - Items starting with capital letters
+- `\d{2,}` - Amounts over $10
+
+### 3. **Full CRUD Operations**
+
+- ✅ Create transactions
+- ✅ Read/display all transactions
+- ✅ Update (edit) transactions
+- ✅ Delete with confirmation
+
+### 4. **Dashboard Statistics**
+
+- Total transaction count
+- Total amount spent
+- Top spending category
+- Last 7 days spending
+- Budget cap warnings (with ARIA live regions)
+
+### 5. **Sorting**
+
+Click any table header to sort by:
+
+- Date
+- Description (A-Z)
+- Amount (ascending/descending)
+- Category
+
+### 6. **Multi-Currency Support**
+
+- Base: USD
+- EUR and RWF support
+- Manual exchange rates in Settings
+- Auto-converts all displays
+
+### 7. **Data Persistence**
+
+- Auto-saves to memory (replaces localStorage)
+- Export to JSON file
+- Import JSON with validation
+- Clear all data option
+
+### 8. **Accessibility (a11y)**
+
+- Skip-to-content link
+- Keyboard navigation works throughout
+- Visible focus indicators
+- ARIA live regions for status updates
+- Proper semantic HTML (header, nav, main, section, footer)
+- Form labels properly bound
+
+### 9. **Responsive Design**
+
+- Mobile-first approach
+- Breakpoints at 360px, 768px, 1024px
+- Flexbox layout
+- Tables scroll horizontally on mobile
+
+### 10. **Animations**
+
+- Smooth page transitions (fadeIn)
+- Button hover effects
+- Status notification slide-in
+ -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Finance Tracker</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --warning: #ea580c;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Skip to content link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--primary);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 100;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+    }
+
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      overflow-x: auto;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+    }
+
+    nav button:hover,
+    nav button:focus {
+      background: var(--bg);
+      outline: 2px solid var(--primary);
+      outline-offset: -2px;
+    }
+
+    nav button.active {
+      border-bottom-color: var(--primary);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .card h2 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .stat-card h3 {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .error {
+      color: var(--danger);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    .error.visible {
+      display: block;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    button:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    button.secondary {
+      background: var(--text-light);
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    .search-box {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .search-box input {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .search-box label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--bg);
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    th:hover {
+      background: var(--border);
+    }
+
+    th::after {
+      content: ' ↕';
+      opacity: 0.3;
+    }
+
+    tr:hover {
+      background: var(--bg);
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .actions button {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .status {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background: var(--success);
+      color: white;
+      padding: 1rem;
+      border-radius: 4px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    .status.visible {
+      display: block;
+    }
+
+    .status.error {
+      background: var(--danger);
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(400px); }
+      to { transform: translateX(0); }
+    }
+
+    .budget-alert {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 4px solid;
+    }
+
+    .budget-alert.warning {
+      background: #fff7ed;
+      border-color: var(--warning);
+      color: #9a3412;
+    }
+
+    .budget-alert.danger {
+      background: #fef2f2;
+      border-color: var(--danger);
+      color: #991b1b;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 0.875rem;
+      }
+
+      th, td {
+        padding: 0.5rem;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 360px) {
+      main {
+        padding: 0 0.5rem;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-light);
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header>
+    <h1>💰 Student Finance Tracker</h1>
+  </header>
+
+  <nav role="navigation" aria-label="Main navigation">
+    <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+    <button class="nav-btn" data-section="transactions">Transactions</button>
+    <button class="nav-btn" data-section="add">Add Transaction</button>
+    <button class="nav-btn" data-section="settings">Settings</button>
+    <button class="nav-btn" data-section="about">About</button>
+  </nav>
+
+  <main id="main">
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="active">
+      <div class="card">
+        <h2>Financial Overview</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Transactions</h3>
+            <div class="value" id="stat-count">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Total Spent</h3>
+            <div class="value" id="stat-total">$0.00</div>
+          </div>
+          <div class="stat-card">
+            <h3>Top Category</h3>
+            <div class="value" id="stat-category">-</div>
+          </div>
+          <div class="stat-card">
+            <h3>Last 7 Days</h3>
+            <div class="value" id="stat-recent">$0.00</div>
+          </div>
+        </div>
+        <div id="budget-status" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Transactions Section -->
+    <section id="transactions">
+      <div class="card">
+        <h2>All Transactions</h2>
+        
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Regex search (e.g., coffee|tea, \.\d{2}\b)" aria-label="Search transactions">
+          <label>
+            <input type="checkbox" id="case-sensitive">
+            Case sensitive
+          </label>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th data-sort="date">Date</th>
+                <th data-sort="description">Description</th>
+                <th data-sort="amount">Amount</th>
+                <th data-sort="category">Category</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="transactions-body">
+              <tr><td colspan="5" style="text-align: center; padding: 2rem;">No transactions yet. Add your first one!</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add Transaction Section -->
+    <section id="add">
+      <div class="card">
+        <h2 id="form-title">Add Transaction</h2>
+        <form id="transaction-form">
+          <input type="hidden" id="edit-id">
+          
+          <div class="form-group">
+            <label for="description">Description *</label>
+            <input type="text" id="description" required aria-describedby="desc-error">
+            <div class="error" id="desc-error" role="alert"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="amount">Amount *</label>
+            <input type="text" id="amount" required aria-describedby="amount-error">
+            <div class="error" id="amount-error" role="alert"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Category *</label>
+            <select id="category" required>
+              <option value="">Select category</option>
+              <option value="Food">Food</option>
+              <option value="Books">Books</option>
+              <option value="Transport">Transport</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Fees">Fees</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="date">Date *</label>
+            <input type="date" id="date" required aria-describedby="date-error">
+            <div class="error" id="date-error" role="alert"></div>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="submit">Save Transaction</button>
+            <button type="button" class="secondary" id="cancel-btn">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Settings Section -->
+    <section id="settings">
+      <div class="card">
+        <h2>Settings</h2>
+        
+        <div class="form-group">
+          <label for="budget-cap">Monthly Budget Cap (USD)</label>
+          <input type="number" id="budget-cap" min="0" step="0.01" placeholder="e.g., 500">
+        </div>
+
+        <div class="form-group">
+          <label for="base-currency">Display Currency</label>
+          <select id="base-currency">
+            <option value="USD">USD (US Dollar)</option>
+            <option value="EUR">EUR (Euro)</option>
+            <option value="RWF">RWF (Rwandan Franc)</option>
+          </select>
+        </div>
+
+        <h3 style="margin-top: 1.5rem;">Exchange Rates (vs USD)</h3>
+        <div class="form-group">
+          <label for="rate-eur">EUR Rate</label>
+          <input type="number" id="rate-eur" step="0.0001" value="0.92">
+        </div>
+        <div class="form-group">
+          <label for="rate-rwf">RWF Rate</label>
+          <input type="number" id="rate-rwf" step="0.01" value="1320">
+        </div>
+
+        <button id="save-settings">Save Settings</button>
+
+        <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+
+        <h3>Data Management</h3>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+          <button id="export-btn">Export JSON</button>
+          <button id="import-btn" class="secondary">Import JSON</button>
+          <button id="clear-btn" class="danger">Clear All Data</button>
+        </div>
+        <input type="file" id="import-file" accept=".json" style="display: none;">
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="card">
+        <h2>About This App</h2>
+        <p style="margin-bottom: 1rem;">
+          The Student Finance Tracker helps you manage your expenses effectively. Track transactions, 
+          set budgets, and gain insights into your spending patterns.
+        </p>
+        
+        <h3>Features:</h3>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+          <li>Add, edit, and delete transactions</li>
+          <li>Advanced regex search functionality</li>
+          <li>Sort by date, description, amount, or category</li>
+          <li>Real-time statistics and budget tracking</li>
+          <li>Multi-currency support</li>
+          <li>Import/Export data as JSON</li>
+          <li>Fully accessible and keyboard-friendly</li>
+        </ul>
+
+        <h3>Contact:</h3>
+        <p>
+          📧 Email: student@example.com<br>
+          💻 GitHub: github.com/student-finance
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Student Finance Tracker. Built with vanilla JavaScript.</p>
+  </footer>
+
+  <!-- Status notification -->
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    // ===== STORAGE MODULE =====
+    const STORAGE_KEY = 'finance:transactions';
+    const SETTINGS_KEY = 'finance:settings';
+
+    const Storage = {
+      load() {
+        try {
+          const data = localStorage.getItem(STORAGE_KEY);
+          return data ? JSON.parse(data) : [];
+        } catch {
+          return [];
+        }
+      },
+      save(data) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      },
+      loadSettings() {
+        try {
+          const data = localStorage.getItem(SETTINGS_KEY);
+          return data ? JSON.parse(data) : { budgetCap: 0, currency: 'USD', rates: { EUR: 0.92, RWF: 1320 } };
+        } catch {
+          return { budgetCap: 0, currency: 'USD', rates: { EUR: 0.92, RWF: 1320 } };
+        }
+      },
+      saveSettings(settings) {
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+      }
+    };
+
+    // ===== VALIDATORS MODULE =====
+    const Validators = {
+      description: {
+        pattern: /^\S(?:.*\S)?$/,
+        message: 'No leading/trailing spaces allowed',
+        test(value) {
+          return this.pattern.test(value) && !/\b(\w+)\s+\1\b/i.test(value);
+        },
+        duplicateCheck(value) {
+          if (/\b(\w+)\s+\1\b/i.test(value)) {
+            return 'Duplicate words detected (e.g., "coffee coffee")';
+          }
+          return null;
+        }
+      },
+      amount: {
+        pattern: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+        message: 'Enter a valid amount (e.g., 12.50)',
+        test(value) {
+          return this.pattern.test(value);
+        }
+      },
+      date: {
+        pattern: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/,
+        message: 'Use YYYY-MM-DD format',
+        test(value) {
+          return this.pattern.test(value);
+        }
+      },
+      category: {
+        pattern: /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/,
+        message: 'Letters, spaces, and hyphens only',
+        test(value) {
+          return this.pattern.test(value);
+        }
+      }
+    };
+
+    // ===== SEARCH MODULE =====
+    const Search = {
+      compileRegex(input, caseSensitive = false) {
+        try {
+          return input ? new RegExp(input, caseSensitive ? 'g' : 'gi') : null;
+        } catch {
+          return null;
+        }
+      },
+      highlight(text, regex) {
+        if (!regex) return text;
+        return text.replace(regex, m => `<mark>${m}</mark>`);
+      }
+    };
+
+    // ===== STATE MODULE =====
+    let transactions = Storage.load();
+    let settings = Storage.loadSettings();
+    let currentSort = { field: 'date', ascending: false };
+    let editingId = null;
+
+    function generateId() {
+      return 'txn_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    function addTransaction(data) {
+      const now = new Date().toISOString();
+      const transaction = {
+        id: generateId(),
+        ...data,
+        createdAt: now,
+        updatedAt: now
+      };
+      transactions.unshift(transaction);
+      Storage.save(transactions);
+      return transaction;
+    }
+
+    function updateTransaction(id, data) {
+      const index = transactions.findIndex(t => t.id === id);
+      if (index !== -1) {
+        transactions[index] = {
+          ...transactions[index],
+          ...data,
+          updatedAt: new Date().toISOString()
+        };
+        Storage.save(transactions);
+        return transactions[index];
+      }
+      return null;
+    }
+
+    function deleteTransaction(id) {
+      transactions = transactions.filter(t => t.id !== id);
+      Storage.save(transactions);
+    }
+
+    function sortTransactions(field, ascending) {
+      transactions.sort((a, b) => {
+        let aVal = a[field];
+        let bVal = b[field];
+        
+        if (field === 'amount') {
+          aVal = parseFloat(aVal);
+          bVal = parseFloat(bVal);
+        }
+        
+        if (aVal < bVal) return ascending ? -1 : 1;
+        if (aVal > bVal) return ascending ? 1 : -1;
+        return 0;
+      });
+    }
+
+    // ===== UI MODULE =====
+    function showStatus(message, isError = false) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.className = 'status visible' + (isError ? ' error' : '');
+      setTimeout(() => status.className = 'status', 3000);
+    }
+
+    function switchSection(sectionId) {
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      
+      document.getElementById(sectionId).classList.add('active');
+      document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+      
+      if (sectionId === 'dashboard') updateDashboard();
+      if (sectionId === 'transactions') renderTransactions();
+    }
+
+    function convertAmount(amount, fromCurrency = 'USD', toCurrency = 'USD') {
+      if (fromCurrency === toCurrency) return amount;
+      
+      let amountInUSD = amount;
+      if (fromCurrency !== 'USD') {
+        amountInUSD = amount / settings.rates[fromCurrency];
+      }
+      
+      if (toCurrency !== 'USD') {
+        return amountInUSD * settings.rates[toCurrency];
+      }
+      return amountInUSD;
+    }
+
+    function formatAmount(amount) {
+      const currency = settings.currency;
+      const converted = convertAmount(amount, 'USD', currency);
+      
+      const symbols = { USD: '$', EUR: '€', RWF: 'FRw' };
+      const decimals = currency === 'RWF' ? 0 : 2;
+      
+      return symbols[currency] + converted.toFixed(decimals);
+    }
+
+    function updateDashboard() {
+      const count = transactions.length;
+      const total = transactions.reduce((sum, t) => sum + parseFloat(t.amount), 0);
+      
+      // Top category
+      const categories = {};
+      transactions.forEach(t => {
+        categories[t.category] = (categories[t.category] || 0) + parseFloat(t.amount);
+      });
+      const topCategory = Object.keys(categories).length > 0
+        ? Object.entries(categories).sort((a, b) => b[1] - a[1])[0][0]
+        : '-';
+      
+      // Last 7 days
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+      const recent = transactions
+        .filter(t => new Date(t.date) >= sevenDaysAgo)
+        .reduce((sum, t) => sum + parseFloat(t.amount), 0);
+      
+      document.getElementById('stat-count').textContent = count;
+      document.getElementById('stat-total').textContent = formatAmount(total);
+      document.getElementById('stat-category').textContent = topCategory;
+      document.getElementById('stat-recent').textContent = formatAmount(recent);
+      
+      // Budget alert
+      const budgetStatus = document.getElementById('budget-status');
+      if (settings.budgetCap > 0) {
+        const remaining = settings.budgetCap - total;
+        const percentage = (total / settings.budgetCap) * 100;
+        
+        if (percentage >= 100) {
+          budgetStatus.innerHTML = `
+            <div class="budget-alert danger" role="alert" aria-live="assertive">
+              <strong>⚠️ Budget Exceeded!</strong> You've spent ${formatAmount(total)} of your ${formatAmount(settings.budgetCap)} budget.
+            </div>
+          `;
+        } else if (percentage >= 80) {
+          budgetStatus.innerHTML = `
+            <div class="budget-alert warning" role="alert" aria-live="polite">
+              <strong>⚡ Budget Warning!</strong> You have ${formatAmount(remaining)} remaining of your ${formatAmount(settings.budgetCap)} budget.
+            </div>
+          `;
+        } else {
+          budgetStatus.innerHTML = '';
+        }
+      } else {
+        budgetStatus.innerHTML = '';
+      }
+    }
+
+    function renderTransactions(searchRegex = null) {
+      const tbody = document.getElementById('transactions-body');
+      
+      if (transactions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No transactions yet. Add your first one!</td></tr>';
+        return;
+      }
+      
+      let filtered = [...transactions];
+      if (searchRegex) {
+        filtered = filtered.filter(t => 
+          searchRegex.test(t.description) || 
+          searchRegex.test(t.category) ||
+          searchRegex.test(t.amount.toString())
+        );
+      }
+      
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No matching transactions found.</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = filtered.map(t => {
+        const desc = searchRegex ? Search.highlight(t.description, searchRegex) : t.description;
+        const cat = searchRegex ? Search.highlight(t.category, searchRegex) : t.category;
+        
+        return `
+          <tr>
+            <td>${t.date}</td>
+            <td>${desc}</td>
+            <td>${formatAmount(t.amount)}</td>
+            <td>${cat}</td>
+            <td>
+              <div class="actions">
+                <button class="secondary" onclick="window.editTransaction('${t.id}')">Edit</button>
+                <button class="danger" onclick="window.deleteTransaction('${t.id}')">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ===== EVENT HANDLERS =====
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchSection(btn.dataset.section);
+      });
+    });
+
+    document.getElementById('transaction-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const description = document.getElementById('description').value.trim();
+      const amount = document.getElementById('amount').value.trim();
+      const category = document.getElementById('category').value;
+      const date = document.getElementById('date').value;
+      
+      // Validate all fields
+      let hasError = false;
+      
+      // Validate description
+      const descError = document.getElementById('desc-error');
+      if (!Validators.description.test(description)) {
+        descError.textContent = Validators.description.message;
+        descError.classList.add('visible');
+        hasError = true;
+      } else {
+        const dupError = Validators.description.duplicateCheck(description);
+        if (dupError) {
+          descError.textContent = dupError;
+          descError.classList.add('visible');
+          hasError = true;
+        } else {
+          descError.classList.remove('visible');
+        }
+      }
+      
+      // Validate amount
+      const amountError = document.getElementById('amount-error');
+      if (!Validators.amount.test(amount)) {
+        amountError.textContent = Validators.amount.message;
+        amountError.classList.add('visible');
+        hasError = true;
+      } else {
+        amountError.classList.remove('visible');
+      }
+      
+      // Validate date
+      const dateError = document.getElementById('date-error');
+      if (!Validators.date.test(date)) {
+        dateError.textContent = Validators.date.message;
+        dateError.classList.add('visible');
+        hasError = true;
+      } else {
+        dateError.classList.remove('visible');
+      }
+      
+      if (hasError) return;
+      
+      const data = {
+        description,
+        amount: parseFloat(amount),
+        category,
+        date
+      };
+      
+      if (editingId) {
+        updateTransaction(editingId, data);
+        showStatus('Transaction updated successfully!');
+        editingId = null;
+      } else {
+        addTransaction(data);
+        showStatus('Transaction added successfully!');
+      }
+      
+      e.target.reset();
+      document.getElementById('form-title').textContent = 'Add Transaction';
+      document.getElementById('edit-id').value = '';
+      switchSection('transactions');
+    });
+    
+    document.getElementById('cancel-btn').addEventListener('click', () => {
+      document.getElementById('transaction-form').reset();
+      document.getElementById('form-title').textContent = 'Add Transaction';
+      editingId = null;
+      switchSection('transactions');
+    });
+    
+    // Search functionality
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const caseSensitive = document.getElementById('case-sensitive').checked;
+      const regex = Search.compileRegex(e.target.value, caseSensitive);
+      
+      if (e.target.value && !regex) {
+        showStatus('Invalid regex pattern', true);
+      }
+      
+      renderTransactions(regex);
+    });
+    
+    document.getElementById('case-sensitive').addEventListener('change', () => {
+      const input = document.getElementById('search-input').value;
+      const caseSensitive = document.getElementById('case-sensitive').checked;
+      const regex = Search.compileRegex(input, caseSensitive);
+      renderTransactions(regex);
+    });
+    
+    // Sorting
+    document.querySelectorAll('th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const field = th.dataset.sort;
+        
+        if (currentSort.field === field) {
+          currentSort.ascending = !currentSort.ascending;
+        } else {
+          currentSort.field = field;
+          currentSort.ascending = true;
+        }
+        
+        sortTransactions(field, currentSort.ascending);
+        renderTransactions();
+        
+        // Update visual indicator
+        document.querySelectorAll('th').forEach(h => {
+          h.style.background = '';
+        });
+        th.style.background = 'var(--primary)';
+        th.style.color = 'white';
+        th.innerHTML = th.textContent.replace(' ↕', '') + (currentSort.ascending ? ' ↑' : ' ↓');
+      });
+    });
+    
+    // Global functions for inline actions
+    window.editTransaction = (id) => {
+      const transaction = transactions.find(t => t.id === id);
+      if (!transaction) return;
+      
+      editingId = id;
+      document.getElementById('edit-id').value = id;
+      document.getElementById('description').value = transaction.description;
+      document.getElementById('amount').value = transaction.amount;
+      document.getElementById('category').value = transaction.category;
+      document.getElementById('date').value = transaction.date;
+      document.getElementById('form-title').textContent = 'Edit Transaction';
+      
+      switchSection('add');
+    };
+    
+    window.deleteTransaction = (id) => {
+      if (confirm('Are you sure you want to delete this transaction?')) {
+        deleteTransaction(id);
+        showStatus('Transaction deleted');
+        renderTransactions();
+        updateDashboard();
+      }
+    };
+    
+    // Settings
+    document.getElementById('save-settings').addEventListener('click', () => {
+      settings.budgetCap = parseFloat(document.getElementById('budget-cap').value) || 0;
+      settings.currency = document.getElementById('base-currency').value;
+      settings.rates.EUR = parseFloat(document.getElementById('rate-eur').value);
+      settings.rates.RWF = parseFloat(document.getElementById('rate-rwf').value);
+      
+      Storage.saveSettings(settings);
+      showStatus('Settings saved!');
+      updateDashboard();
+      renderTransactions();
+    });
+    
+    // Load settings into form
+    document.getElementById('budget-cap').value = settings.budgetCap || '';
+    document.getElementById('base-currency').value = settings.currency;
+    document.getElementById('rate-eur').value = settings.rates.EUR;
+    document.getElementById('rate-rwf').value = settings.rates.RWF;
+    
+    // Export
+    document.getElementById('export-btn').addEventListener('click', () => {
+      const dataStr = JSON.stringify(transactions, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `finance-export-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showStatus('Data exported successfully!');
+    });
+    
+    // Import
+    document.getElementById('import-btn').addEventListener('click', () => {
+      document.getElementById('import-file').click();
+    });
+    
+    document.getElementById('import-file').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const imported = JSON.parse(event.target.result);
+          
+          // Validate structure
+          if (!Array.isArray(imported)) {
+            throw new Error('Invalid format: expected an array');
+          }
+          
+          // Validate each transaction
+          for (const item of imported) {
+            if (!item.description || !item.amount || !item.category || !item.date) {
+              throw new Error('Invalid transaction structure');
+            }
+          }
+          
+          // Add missing fields
+          imported.forEach(item => {
+            if (!item.id) item.id = generateId();
+            if (!item.createdAt) item.createdAt = new Date().toISOString();
+            if (!item.updatedAt) item.updatedAt = new Date().toISOString();
+          });
+          
+          transactions = imported;
+          Storage.save(transactions);
+          showStatus(`${imported.length} transactions imported!`);
+          renderTransactions();
+          updateDashboard();
+        } catch (err) {
+          showStatus('Import failed: ' + err.message, true);
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+    
+    // Clear data
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      if (confirm('Are you sure you want to delete ALL transactions? This cannot be undone!')) {
+        transactions = [];
+        Storage.save(transactions);
+        showStatus('All data cleared');
+        renderTransactions();
+        updateDashboard();
+      }
+    });
+    
+    // Set default date to today
+    document.getElementById('date').valueAsDate = new Date();
+    
+    // Initialize
+    updateDashboard();
+    renderTransactions();
+  </script>
+</body>
+</html>    

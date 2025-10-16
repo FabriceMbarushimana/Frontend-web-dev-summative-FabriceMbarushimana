@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Finance Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link"></a>
+
+  <div class="app-container">
+    <!-- Fixed Navigation -->
+    <nav class="fixed-nav">
+      <div class="nav-brand">
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <span>Student Finance Tracker</span>
+      </div>
+      <button class="theme-toggle" aria-label="Toggle dark mode">
+        <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17ZM12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12C19 15.866 15.866 19 12 19ZM12 2V4M12 20V22M4 12H2M6.343 6.343L4.929 4.929M17.657 6.343L19.071 4.929M6.343 17.657L4.929 19.071M17.657 17.657L19.071 19.071M22 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.3542 15.3542C19.3176 15.7708 18.1856 16.0001 17 16.0001C12.0294 16.0001 8 11.9706 8 7.00006C8 5.81449 8.22924 4.68246 8.64581 3.64587C5.33648 4.97597 3 8.21506 3 12.0001C3 16.9706 7.02944 21.0001 12 21.0001C15.785 21.0001 19.0241 18.6636 20.3542 15.3542Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <h1>Student Finance Tracker</h1>
+        <div class="header-controls">
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+            <svg class="sun-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17ZM12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12C19 15.866 15.866 19 12 19ZM12 2V4M12 20V22M4 12H2M6.343 6.343L4.929 4.929M17.657 6.343L19.071 4.929M6.343 17.657L4.929 19.071M17.657 17.657L19.071 19.071M22 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.3542 15.3542C19.3176 15.7708 18.1856 16.0001 17 16.0001C12.0294 16.0001 8 11.9706 8 7.00006C8 5.81449 8.22924 4.68246 8.64581 3.64587C5.33648 4.97597 3 8.21506 3 12.0001C3 16.9706 7.02944 21.0001 12 21.0001C15.785 21.0001 19.0241 18.6636 20.3542 15.3542Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="sidebar-toggle" aria-label="Toggle sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </header>
+      
+      <nav class="sidebar-nav " role="navigation" aria-label="Main navigation">
+        <button class="nav-btn active" data-section="dashboard">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" fill="currentColor"/>
+          </svg>
+          Dashboard
+        </button>
+        <button class="nav-btn" data-section="transactions">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4C2.89 4 2.01 4.89 2.01 6L2 18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4ZM20 18H4V12H20V18ZM20 8H4V6H20V8Z" fill="currentColor"/>
+          </svg>
+          Transactions
+        </button>
+        <button class="nav-btn" data-section="add">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="currentColor"/>
+          </svg>
+          Add Transaction
+        </button>
+        <button class="nav-btn" data-section="settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.14 12.94C19.18 12.63 19.2 12.32 19.2 12C19.2 11.68 19.18 11.37 19.14 11.06L21.16 9.44C21.36 9.27 21.4 9 21.3 8.78L19.3 5.22C19.2 5 18.96 4.89 18.72 4.95L16.32 5.5C15.84 5.09 15.3 4.75 14.72 4.5L14.34 2.02C14.3 1.76 14.08 1.56 13.82 1.56H10.18C9.92 1.56 9.7 1.76 9.66 2.02L9.28 4.5C8.7 4.75 8.16 5.09 7.68 5.5L5.28 4.95C5.04 4.89 4.8 5 4.7 5.22L2.7 8.78C2.6 9 2.64 9.27 2.84 9.44L4.86 11.06C4.82 11.37 4.8 11.68 4.8 12C4.8 12.32 4.82 12.63 4.86 12.94L2.84 14.56C2.64 14.73 2.6 15 2.7 15.22L4.7 18.78C4.8 19 5.04 19.11 5.28 19.05L7.68 18.5C8.16 18.91 8.7 19.25 9.28 19.5L9.66 21.98C9.7 22.24 9.92 22.44 10.18 22.44H13.82C14.08 22.44 14.3 22.24 14.34 21.98L14.72 19.5C15.3 19.25 15.84 18.91 16.32 18.5L18.72 19.05C18.96 19.11 19.2 19 19.3 18.78L21.3 15.22C21.4 15 21.36 14.73 21.16 14.56L19.14 12.94ZM12 15.6C10.08 15.6 8.52 14.04 8.52 12.12C8.52 10.2 10.08 8.64 12 8.64C13.92 8.64 15.48 10.2 15.48 12.12C15.48 14.04 13.92 15.6 12 15.6Z" fill="currentColor"/>
+          </svg>
+          Settings
+        </button>
+        <button class="nav-btn" data-section="about">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="currentColor"/>
+          </svg>
+          About
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="main" class="main-content">
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="active">
+        <div class="card">
+          <h2>Financial Overview</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3>Total Transactions</h3>
+              <div class="value" id="stat-count">0</div>
+            </div>
+            <div class="stat-card">
+              <h3>Total Spent</h3>
+              <div class="value" id="stat-total">$0.00</div>
+            </div>
+            <div class="stat-card">
+              <h3>Top Category</h3>
+              <div class="value" id="stat-category">-</div>
+            </div>
+            <div class="stat-card">
+              <h3>Last 7 Days</h3>
+              <div class="value" id="stat-recent">$0.00</div>
+            </div>
+          </div>
+          <div id="budget-status" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="card">
+            <h3>Spending by Category</h3>
+            <div class="chart-container">
+              <canvas id="category-chart"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Monthly Spending Trend</h3>
+            <div class="chart-container">
+              <canvas id="trend-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transactions Section -->
+      <section id="transactions">
+        <div class="card">
+          <h2>All Transactions</h2>
+          
+          <div class="search-box">
+            <input type="text" id="search-input" placeholder="Regex search (e.g., coffee|tea, \.\d{2}\b)" aria-label="Search transactions">
+            <label style=" display:none">
+              <input type="checkbox" id="case-sensitive">
+              Case sensitive
+            </label>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th data-sort="date">Date</th>
+                  <th data-sort="description">Description</th>
+                  <th data-sort="amount">Amount</th>
+                  <th data-sort="category">Category</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="transactions-body">
+                <tr><td colspan="5" style="text-align: center; padding: 2rem;">No transactions yet. Add your first one!</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Add Transaction Section -->
+      <section id="add">
+        <div class="card">
+          <h2 id="form-title">Add Transaction</h2>
+          <form id="transaction-form">
+            <input type="hidden" id="edit-id">
+             <div class="form-group">
+              <label for="category">Category *</label>
+              <select id="category" required>
+                <option value="">Select category</option>
+                <option value="Food">Food</option>
+                <option value="Books">Books</option>
+                <option value="Transport">Transport</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Fees">Fees</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description *</label>
+              <input type="text" id="description" required aria-describedby="desc-error">
+              <div class="error" id="desc-error" role="alert"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="amount">Amount *</label>
+              <input type="text" id="amount" required aria-describedby="amount-error">
+              <div class="error" id="amount-error" role="alert"></div>
+            </div>
+
+           
+            <div class="form-group">
+              <label for="date">Date *</label>
+              <input type="date" id="date" required aria-describedby="date-error">
+              <div class="error" id="date-error" role="alert"></div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+              <button type="submit">Save Transaction</button>
+              <button type="button" class="secondary" id="cancel-btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Settings Section -->
+      <section id="settings">
+        <div class="card">
+          <h2>Settings</h2>
+          
+          <div class="form-group">
+            <label for="budget-cap">Monthly Budget Cap (USD)</label>
+            <input type="number" id="budget-cap" min="0" step="0.01" placeholder="e.g., 500">
+          </div>
+
+          <div class="form-group">
+            <label for="base-currency">Display Currency</label>
+            <select id="base-currency">
+              <option value="USD">USD (US Dollar)</option>
+              <option value="EUR">EUR (Euro)</option>
+              <option value="RWF">RWF (Rwandan Franc)</option>
+            </select>
+          </div>
+
+          <h3 style="margin-top: 1.5rem;">Exchange Rates (vs USD)</h3>
+          <div class="form-group">
+            <label for="rate-eur">EUR Rate</label>
+            <input type="number" id="rate-eur" step="0.0001" value="0.92">
+          </div>
+          <div class="form-group">
+            <label for="rate-rwf">RWF Rate</label>
+            <input type="number" id="rate-rwf" step="0.01" value="1320">
+          </div>
+
+          <button id="save-settings">Save Settings</button>
+
+          <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+
+          <h3>Data Management</h3>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+            <button id="export-btn">Export JSON</button>
+            <button id="export-csv-btn">Export CSV</button>
+            <button id="import-btn" class="secondary">Import JSON</button>
+            <button id="clear-btn" class="danger">Clear All Data</button>
+          </div>
+          <input type="file" id="import-file" accept=".json" style="display: none;">
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about">
+        <div class="card">
+          <h2>About This App</h2>
+          <p style="margin-bottom: 1rem;">
+            The Student Finance Tracker helps you manage your expenses effectively. Track transactions, 
+            set budgets, and gain insights into your spending patterns.
+          </p>
+          
+          <h3>Features:</h3>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li>Add, edit, and delete transactions</li>
+            <li>Advanced regex search functionality</li>
+            <li>Sort by date, description, amount, or category</li>
+            <li>Real-time statistics and budget tracking</li>
+            <li>Multi-currency support</li>
+            <li>Import/Export data as JSON</li>
+            <li>Fully accessible and keyboard-friendly</li>
+          </ul>
+
+          <h3>Contact us :</h3>
+          <p>
+             Email: 
+                       <a href="mailto:f.mbarushim@alustudent.com">f.mbarushim@alustudent.com</a>
+
+             <br>
+             GitHub
+             <a href="https://github.com/fabricembarushimana">Finance Tracker</a>
+          </p>
+         </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Student Finance Tracker.</p>
+  </footer>
+
+  <!-- Status notification -->
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+
+  <script type="module" src="scripts/main.js"></script>
+</body>
+</html>

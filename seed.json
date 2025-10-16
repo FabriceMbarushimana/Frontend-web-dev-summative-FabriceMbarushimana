@@ -1,0 +1,92 @@
+[
+  {
+    "id": "txn_001",
+    "description": "Semester textbooks",
+    "amount": 245.50,
+    "category": "Books",
+    "date": "2025-09-01",
+    "createdAt": "2025-09-01T09:00:00.000Z",
+    "updatedAt": "2025-09-01T09:00:00.000Z"
+  },
+  {
+    "id": "txn_002",
+    "description": "Monthly bus pass",
+    "amount": 60.00,
+    "category": "Transport",
+    "date": "2025-09-02",
+    "createdAt": "2025-09-02T10:15:00.000Z",
+    "updatedAt": "2025-09-02T10:15:00.000Z"
+  },
+  {
+    "id": "txn_003",
+    "description": "Campus cafe lunch",
+    "amount": 12.75,
+    "category": "Food",
+    "date": "2025-09-03",
+    "createdAt": "2025-09-03T12:30:00.000Z",
+    "updatedAt": "2025-09-03T12:30:00.000Z"
+  },
+  {
+    "id": "txn_004",
+    "description": "Student association fee",
+    "amount": 75.00,
+    "category": "Fees",
+    "date": "2025-09-05",
+    "createdAt": "2025-09-05T14:20:00.000Z",
+    "updatedAt": "2025-09-05T14:20:00.000Z"
+  },
+  {
+    "id": "txn_005",
+    "description": "Coffee and snacks",
+    "amount": 8.50,
+    "category": "Food",
+    "date": "2025-09-06",
+    "createdAt": "2025-09-06T15:45:00.000Z",
+    "updatedAt": "2025-09-06T15:45:00.000Z"
+  },
+  {
+    "id": "txn_006",
+    "description": "Cinema night",
+    "amount": 15.00,
+    "category": "Entertainment",
+    "date": "2025-09-08",
+    "createdAt": "2025-09-08T19:00:00.000Z",
+    "updatedAt": "2025-09-08T19:00:00.000Z"
+  },
+  {
+    "id": "txn_007",
+    "description": "Lab materials",
+    "amount": 45.25,
+    "category": "Books",
+    "date": "2025-09-10",
+    "createdAt": "2025-09-10T11:30:00.000Z",
+    "updatedAt": "2025-09-10T11:30:00.000Z"
+  },
+  {
+    "id": "txn_008",
+    "description": "Group study snacks",
+    "amount": 22.50,
+    "category": "Food",
+    "date": "2025-09-12",
+    "createdAt": "2025-09-12T16:20:00.000Z",
+    "updatedAt": "2025-09-12T16:20:00.000Z"
+  },
+  {
+    "id": "txn_009",
+    "description": "Library printing",
+    "amount": 7.25,
+    "category": "Other",
+    "date": "2025-09-14",
+    "createdAt": "2025-09-14T13:40:00.000Z",
+    "updatedAt": "2025-09-14T13:40:00.000Z"
+  },
+  {
+    "id": "txn_010",
+    "description": "Campus gym membership",
+    "amount": 30.00,
+    "category": "Entertainment",
+    "date": "2025-09-15",
+    "createdAt": "2025-09-15T08:00:00.000Z",
+    "updatedAt": "2025-09-15T08:00:00.000Z"
+  }
+]
