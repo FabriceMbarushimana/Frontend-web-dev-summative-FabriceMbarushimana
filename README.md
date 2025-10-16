@@ -1,5 +1,13 @@
 # Student Finance Tracker
 
+Figma design:
+https://www.figma.com/design/Fe3pBcghKprOrhxclAGHRZ/Untitled?node-id=0-1&t=51Pl6cdsVCJCLwYA-1
+
+Video Demo:
+https://www.youtube.com/watch?v=LFvfF3gZeYI
+
+
+
 A web-based application designed to help students manage and track their financial expenses efficiently. This app provides an intuitive interface for monitoring transactions, analyzing spending patterns, setting budgets, and managing finances with multi-currency support.
 
 ## Features
@@ -148,5 +156,6 @@ Feel free to submit issues and enhancement requests!
 - GitHub: [Finance Tracker](https://github.com/fabricembarushimana)
 
 ## License
+
 
 © 2025 Student Finance Tracker. All rights reserved.
